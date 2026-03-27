@@ -1,0 +1,4 @@
+aiogram
+wikipedia
+edge-tts
+google-generativeai
