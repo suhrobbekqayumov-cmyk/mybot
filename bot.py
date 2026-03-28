@@ -8,7 +8,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiohttp import web
 
 # --- SOZLAMALAR ---
-API_TOKEN = '8784506881:AAETyjPes4Qovme4lBtPuJxIwwaNQABXb94' # O'zingizniki tursin
+API_TOKEN = '8784506881:AAHs8cvQANrC-rhJKAtEXP2cHSz9hTJ6SUc' # O'zingizniki tursin
 GOOGLE_API_KEY = "AIzaSyD0wUMpVz8pShFcJJkm8tKL9NInLlc8z7M" # Gemini API keyingizni qo'ying
 
 # Gemini AI ulanishi
