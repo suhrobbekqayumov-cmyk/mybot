@@ -8,9 +8,9 @@ from aiohttp import web
 API_TOKEN = '8784506881:AAE96UbQZj8gnuIc2ydEoxfmo48ZWDuxvpo'
 GOOGLE_API_KEY = "AIzaSyBPjfoLuhjq1y2ZoiMR1SJimvAMsmcEsJU"
 
-# Gemini AI sozlash
+# Gemini AI sozlash (Model nomi yangilandi)
 genai.configure(api_key=GOOGLE_API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-1.5-flash-latest')
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
@@ -34,7 +34,7 @@ async def start_server():
 async def chat_handler(message: types.Message):
     # /start komandasi uchun
     if message.text == "/start":
-        await message.answer("Salom! Men Gemini AI botman. Menga xohlagan savolingizni bering, javob berishga harakat qilaman! ✨")
+        await message.answer("Salom! Men Gemini AI botman. Menga xohlagan savolingizni bering! ✨")
         return
 
     # Foydalanuvchiga kutish xabarini ko'rsatish
@@ -48,18 +48,17 @@ async def chat_handler(message: types.Message):
         if response and response.text:
             await message.answer(response.text)
         else:
-            await message.answer("Kechirasiz, bu savolga javob bera olmayman (xavfsizlik filtri tufayli bo'lishi mumkin).")
+            await message.answer("Kechirasiz, bu savolga javob bera olmayman (xavfsizlik filtri tufayli).")
             
     except Exception as e:
         # Xatoni aniq tushuntirish
-        error_text = str(e)
-        if "API key" in error_text:
-            await message.answer("Xatolik: Google API kaliti noto'g'ri yoki amal qilish muddati tugagan.")
-        else:
-            await message.answer(f"Kichik xatolik bo'ldi: {error_text[:100]}...")
+        await message.answer(f"Xatolik: {str(e)[:100]}...")
     
-    # "O'ylayapman" xabarini o'chirib tashlash
-    await wait_msg.delete()
+    # Kutish xabarini o'chirish
+    try:
+        await wait_msg.delete()
+    except:
+        pass
 
 # --- ASOSIY ISHGA TUSHIRISH ---
 async def main():
