@@ -1,4 +1,3 @@
-google-generativeai
 aiogram
-edge-tts
+google-generativeai
 aiohttp
