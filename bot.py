@@ -9,7 +9,7 @@ from aiohttp import web
 
 # --- SOZMALAR ---
 API_TOKEN = '8784506881:AAGde52AFefql6co4HU0il5AgRas3XYa3xI' 
-GOOGLE_API_KEY = "AIzaSyCZPg7sk5W1MH44HvaLORHYs_vimzdbAaM" 
+GOOGLE_API_KEY = "AIzaSyBPjfoLuhjq1y2ZoiMR1SJimvAMsmcEsJU"
 
 # Gemini AI ulanishi
 try:
