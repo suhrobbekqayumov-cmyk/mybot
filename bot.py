@@ -9,7 +9,7 @@ from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 # --- SOZLAMALAR ---
-API_TOKEN = 8784506881:AAFCPgXn0wz7BU5aqm-qzL-IDL25_7EMvfw
+API_TOKEN ="8784506881:AAFCpgXnQwz7BU5aqm-qzL-lDL25_7EMvfw"
 
 # DIQQAT: Mana bu yerga o'zingizning Gemini API kalitingizni qo'ying!
 # Uni https://aistudio.google.com/ saytidan tekinga olishingiz mumkin.
