@@ -7,9 +7,9 @@ from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiohttp import web
 
-# --- SOZLAMALAR ---
-API_TOKEN = '8784506881:AAGde52AFefql6co4HU0il5AgRas3XYa3xI' # O'zingizniki tursin
-GOOGLE_API_KEY = "AIzaSyD0wUMpVz8pShFcJJkm8tKL9NInLlc8z7M" # Gemini API keyingizni qo'ying
+# --- SOZMALAR ---
+API_TOKEN = '8784506881:AAGde52AFefql6co4HU0il5AgRas3XYa3xI' 
+GOOGLE_API_KEY = "AIzaSyD0wUMpVz8pShFcJJkm8tKL9NInLlc8z7M" 
 
 # Gemini AI ulanishi
 try:
@@ -31,7 +31,9 @@ async def start_server():
     app.router.add_get('/', handle)
     runner = web.AppRunner(app)
     await runner.setup()
-    site = web.TCPSite(runner, '0.0.0.0', int(os.environ.get('PORT', 8080)))
+    # Render portni 10000 yoki 8080 orqali qidiradi
+    port = int(os.environ.get('PORT', 10000))
+    site = web.TCPSite(runner, '0.0.0.0', port)
     await site.start()
 
 # --- TUGMALAR ---
@@ -57,7 +59,6 @@ async def cmd_start(message: types.Message):
 async def change_language(call: types.CallbackQuery):
     lang_code = call.data.split("_")[1]
     USER_LANGS[call.from_user.id] = lang_code
-    
     msg = {"uz": "Til O'zbekcha! 🇺🇿", "ru": "Язык Русский! 🇷🇺", "en": "Language English! 🇺🇸"}
     await call.answer(msg.get(lang_code))
     await call.message.edit_text(f"✅ {msg.get(lang_code)}\nEndi biron narsa yozing...")
@@ -69,25 +70,26 @@ async def ai_handler(message: types.Message):
     wait_msg = await message.answer("O'ylayapman... 🧠")
 
     try:
-        # AI javobi
         prompt = f"Answer only in {lang} language: {message.text}"
         response = model.generate_content(prompt)
         reply_text = response.text
         await message.answer(reply_text)
 
-        # Ovoz chiqarish
         v_map = {'uz': "uz-UZ-MadinaNeural", 'ru': "ru-RU-SvetlanaNeural", 'en': "en-US-GuyNeural"}
         v_file = f"voice_{user_id}.mp3"
         c = edge_tts.Communicate(reply_text[:300], v_map.get(lang, "uz-UZ-MadinaNeural"))
         await c.save(v_file)
         await message.answer_voice(types.FSInputFile(v_file))
         os.remove(v_file)
-    except:
-        await message.answer("Xato! API keyni tekshiring.")
+    except Exception as e:
+        await message.answer(f"Xato! API keyni yoki ulanishni tekshiring.")
+    
     await wait_msg.delete()
 
 async def main():
+    # Server va botni parallel yurgizish
     await start_server()
+    print("Server ishga tushdi, polling boshlanmoqda...")
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
